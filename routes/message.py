@@ -12,8 +12,8 @@ def insert_message():
         
         if req_is_valid(message_args, request.args): 
             execute_query(
-                queries['insert_query'],
-                f'insert',
+                queries['insert_message'],
+                'insert',
                 f'Message ID {str(request.args["messageId"])} inserted',
                 args=(
                     str(request.args['channelId']),
@@ -25,48 +25,54 @@ def insert_message():
                     str(request.args['authorId'])
                 )
             )
-            return 'Message inserted', 200
+            return f'Message {str(request.args["messageId"])} inserted', 200
         else:
             return 'Missing Request Parameters', 400
-    
+        
     except Exception as e:
-        return e, 500
-    
+        return str(e), 500 
+        
 @message_blueprint.route('/update', methods=['POST'])
 def update_message(): 
     try:
         message_args = ['updated_time', 'content', 'messageId'] 
         
         if req_is_valid(message_args, request.args):
-            msg = {
-                'updated_time': request.args['updated_time'],
-                'content': request.args['content'],
-                'message_id': request.args['messageId'] 
-            }
-            ## Adding Update Query
-            return msg, 200
-        
+            execute_query(
+                queries['update_message'],
+                'update',
+                f'Message ID {str(request.args["messageId"])} updated',
+                args=(
+                    request.args['updated_time'],
+                    request.args['content'],
+                    str(request.args['messageId'])
+                )
+            ) 
+            return f'Message {str(request.args["messageId"])} Updated', 200
         else:
             return 'Missing Request Parameters', 400
-    
+
     except Exception as e:
-        return e, 500
-    
+        return str(e), 500 
+        
 @message_blueprint.route('/delete', methods=['POST'])
 def delete_message(): 
     try:
         message_args = ['messageId'] 
         
-        if req_is_valid(message_args, request.args):
-            msg = {
-                'message_id': request.args['messageId'] 
-            }
-            ## Adding Delete Query
-            print(f'Message ID {msg["message_id"]} was deleted')
-            return msg, 200
+        if req_is_valid(message_args, request.args): 
+            execute_query(
+                queries['delete_message'],
+                'delete',
+                f'Message ID {request.args["messageId"]} deleted',
+                args=(
+                    request.args['messageId'],
+                )
+            )
+            return 'Message deleted', 200
         
         else:
             return 'Missing Request Parameters', 400
     
     except Exception as e:
-        return e, 500 
+        return str(e), 500 
