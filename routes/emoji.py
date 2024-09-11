@@ -14,7 +14,7 @@ def insert_emoji():
             execute_query(
                 queries['insert_emoji'],
                 'insert',
-                f'Emoji {str(request.args["emojiName"])} from {request.args["userId"]} inserted',
+                f'Emoji {request.args["emojiName"]} from {request.args["userId"]} inserted',
                 args=(
                     request.args['userId'],
                     request.args['messageId'],
@@ -25,7 +25,7 @@ def insert_emoji():
                     request.args['updateTIme']
                 )
             )
-            return f'Emoji {str(request.args["emojiName"])} from {request.args["userId"]} inserted', 200
+            return f'Emoji {request.args["emojiName"]} from {request.args["userId"]} inserted', 200
         else:
             return 'Missing Request Parameters', 400
         
@@ -41,7 +41,7 @@ def delete_emoji():
             execute_query(
                 queries['delete_emoji'],
                 'update',
-                f'Emoji {str(request.args["emojiName"])} from {request.args["userId"]} removed',
+                f'Emoji {request.args["emojiName"]} from {request.args["userId"]} removed',
                 args=(
                     request.args['updateTIme'],
                     request.args['messageId'],
@@ -49,7 +49,7 @@ def delete_emoji():
                     request.args['emojiName']
                 )
             )
-            return f'Emoji {str(request.args["emojiName"])} from {request.args["userId"]} removed', 200
+            return f'Emoji {request.args["emojiName"]} from {request.args["userId"]} removed', 200
         else:
             return 'Missing Request Parameters', 400
         

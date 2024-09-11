@@ -14,18 +14,18 @@ def insert_message():
             execute_query(
                 queries['insert_message'],
                 'insert',
-                f'Message ID {str(request.args["messageId"])} inserted',
+                f'Message ID {request.args["messageId"]} inserted',
                 args=(
-                    str(request.args['channelId']),
-                    str(request.args['guildId']),
-                    str(request.args['messageId']),
+                    request.args['channelId'],
+                    request.args['guildId'],
+                    request.args['messageId'],
                     request.args['createdTime'],
                     request.args['content'],
                     request.args['ogContent'],
-                    str(request.args['authorId'])
+                    request.args['authorId']
                 )
             )
-            return f'Message {str(request.args["messageId"])} inserted', 200
+            return f'Message {request.args["messageId"]} inserted', 200
         else:
             return 'Missing Request Parameters', 400
         
@@ -41,14 +41,14 @@ def update_message():
             execute_query(
                 queries['update_message'],
                 'update',
-                f'Message ID {str(request.args["messageId"])} updated',
+                f'Message ID {request.args["messageId"]} updated',
                 args=(
                     request.args['updated_time'],
                     request.args['content'],
-                    str(request.args['messageId'])
+                    request.args['messageId']
                 )
             ) 
-            return f'Message {str(request.args["messageId"])} Updated', 200
+            return f'Message {request.args["messageId"]} Updated', 200
         else:
             return 'Missing Request Parameters', 400
 
