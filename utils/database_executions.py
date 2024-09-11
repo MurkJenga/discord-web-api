@@ -37,11 +37,7 @@ def execute_query(query, action, log, args=None):
             return result
     except Exception as e:
         cnx.rollback()
-        logging.error(f"Error executing query: {e}")
-        raise  # Re-raise the exception to handle it upstream if necessary
+        logging.error(f"Error executing query: {e}") 
     finally:
         cursor.close()
-        cnx.close()
-
-# Example usage:
-# result = execute_query("SELECT * FROM my_table WHERE id = %s", 'select', "Query executed", (some_id,))
+        cnx.close() 
