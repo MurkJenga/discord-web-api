@@ -25,11 +25,12 @@ def execute_query(query, action, log, args=None):
     cnx = cnxpool.get_connection() 
     cursor = cnx.cursor()
 
-    try:
-        if action != 'select':
+    try: 
+        if action != 'select': 
             cursor.execute(query, args) 
-            cnx.commit()
-            logging.info(log)
+            cnx.commit() 
+            logging.info(log) 
+            return log
         else:
             cursor.execute(query, args) 
             result = cursor.fetchall()

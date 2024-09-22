@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from utils.functions import req_is_valid
+from utils.functions import req_is_valid, parse_request_json
 from utils.database_executions import execute_query
 from utils.queries import queries
 
@@ -8,24 +8,26 @@ emoji_blueprint = Blueprint('emoji_blueprint', __name__)
 @emoji_blueprint.route('/insert', methods=['POST'])
 def insert_emoji():
     try:
+        data = parse_request_json()
         emoji_args = ['userId', 'messageId', 'emojiName', 'emojiId', 'channelId', 'guildId', 'updateTIme']
+
+        userId = data.get('userId')
+        messageId = data.get('messageId')
+        emojiName = data.get('emojiName')
+        emojiId = data.get('emojiId')
+        channelId = data.get('channelId')
+        guildId = data.get('guildId')
+        updateTIme = data.get('updateTIme')
+        request_keys = data.keys()
         
-        if req_is_valid(emoji_args, request.args): 
+        if req_is_valid(emoji_args, request_keys): 
             execute_query(
                 queries['insert_emoji'],
                 'insert',
-                f'Emoji {request.args["emojiName"]} from {request.args["userId"]} inserted',
-                args=(
-                    request.args['userId'],
-                    request.args['messageId'],
-                    request.args['emojiName'],
-                    request.args['emojiId'],
-                    request.args['channelId'],
-                    request.args['guildId'],
-                    request.args['updateTIme']
-                )
+                f'Emoji {emojiName} from {userId} inserted',
+                args=(userId, messageId, emojiName, emojiId, channelId, guildId, updateTIme)
             )
-            return f'Emoji {request.args["emojiName"]} from {request.args["userId"]} inserted', 200
+            return f'Emoji {emojiName} from {userId} inserted', 200
         else:
             return 'Missing Request Parameters', 400
         
@@ -35,21 +37,21 @@ def insert_emoji():
 @emoji_blueprint.route('/delete', methods=['POST'])
 def delete_emoji():
     try:
+        data = parse_request_json()
         emoji_args = ['updateTIme', 'messageId', 'userId', 'emojiName']
-        
-        if req_is_valid(emoji_args, request.args): 
+        updateTime = data.get('updateTIme')
+        messageId = data.get('messageId')
+        userId = data.get('userId')
+        emojiName = data.get('emojiName')
+        request_keys = data.keys()
+
+        if req_is_valid(emoji_args, request_keys): 
             execute_query(
                 queries['delete_emoji'],
                 'update',
-                f'Emoji {request.args["emojiName"]} from {request.args["userId"]} removed',
-                args=(
-                    request.args['updateTIme'],
-                    request.args['messageId'],
-                    request.args['userId'],
-                    request.args['emojiName']
-                )
-            )
-            return f'Emoji {request.args["emojiName"]} from {request.args["userId"]} removed', 200
+                f'Emoji {emojiName} from {userId} removed',
+                args=(updateTime, messageId, userId, emojiName))
+            return f'Emoji {emojiName} from {userId} removed', 200
         else:
             return 'Missing Request Parameters', 400
         

@@ -9,8 +9,8 @@ app.register_blueprint(message_blueprint, url_prefix = '/message')
 app.register_blueprint(emoji_blueprint, url_prefix = '/emoji')
 app.register_blueprint(command_blueprint, url_prefix = '/command')
 
-#log = logging.getLogger('werkzeug')
-#log.setLevel(logging.ERROR)
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.INFO)
 
 if __name__ == '__main__':
     app.run()
