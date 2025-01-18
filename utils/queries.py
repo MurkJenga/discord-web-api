@@ -269,6 +269,14 @@ queries = {
                 left join reactionRec rRec on rRec.user_id = u.user_id
                 left join topReact tReact on tReact.user_id = u.user_id AND rowno = 1
                 where 
-                    u.user_id = %s """
-
+                    u.user_id = %s """,
+    "get_plex_status": "select is_down from plex_status where server = %s",
+    "update_plex_status": """
+                        update plex_status
+                        set 
+                            is_down = %s,
+                            last_modified_dtm = now()
+                        where 
+                            server = %s
+                            """
                 }

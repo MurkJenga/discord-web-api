@@ -37,3 +37,11 @@ def last30(userid):
 @command_blueprint.route('/user/<userid>', methods=['GET'])
 def user(userid):
     return query_handler("user_query", 'select', 'User command used', userid)
+
+@command_blueprint.route('/plex/update/<server>/<status>', methods=['POST'])
+def update_plex_status(server, status):
+    return query_handler("update_plex_status", 'update', f'Updating {server} plex status', status, server)
+
+@command_blueprint.route('/plex/status/<server>', methods=['GET'])
+def get_plex_status(server):
+    return query_handler("get_plex_status", 'select', f'Getting plex {server} status', server)
